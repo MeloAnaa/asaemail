@@ -1,0 +1,73 @@
+services:
+  dns:
+    build:
+      context:  ./dns
+      dockerfile: Dockerfile
+    container_name: dns
+    ports:
+      - "53:53/udp"
+
+  
+  proxy:
+    build:
+      context:  ./proxy
+      dockerfile: Dockerfile
+    container_name: nginx-proxy
+    ports:
+      - "80:80/tcp"
+    depends_on:
+      - asa-server
+    networks:
+      - asa-network
+
+
+  asa-server:
+    build:
+      context:  ./asa-server
+      dockerfile: Dockerfile
+    container_name: asa-server
+    networks:
+      - asa-network
+
+
+  asa-server2:
+    build:
+      context:  ./asa-server
+      dockerfile: Dockerfile
+    container_name: asa-server2
+    networks:
+      - asa-network
+
+  asa-server02:
+    build:
+      context:  ./asa-server02
+      dockerfile: Dockerfile
+    container_name: asa-server02
+    ports:
+      - "8080:80/tcp"
+    networks:
+      - asa-network
+
+
+
+  email:
+    build:
+      context:  ./email
+      dockerfile: Dockerfile
+    container_name: email
+    ports:
+      - "25:25/tcp" #semp
+      - "110:110/tcp" #smp client
+      - "587:587/tcp" #pop3
+      - "143:143/tcp" #imap
+    networks:
+      - asa-network
+
+
+
+
+
+ 
+networks:
+  asa-network:
+    driver: bridge
