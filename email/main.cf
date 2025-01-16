@@ -52,7 +52,10 @@ myhostname = mail.asa.br
 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = $myhostname, /etc/mailname, localhost, localhost.localdomain, localhost
+
+#mydestination = $myhostname, /etc/mailname, localhost, localhost.localdomain, localhost
+mydestination = $myhostname, $myorigin, localhost, localhost.localdomain, localhost
+
 relayhost =
 
 
@@ -66,3 +69,4 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
+
